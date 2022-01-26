@@ -11,8 +11,8 @@ public interface IMessageBus
      
     void ConsumeAndReplyAsync<TRequest, TResponse>(string queue, Func<TRequest, Task<TResponse>> func);         
 
-    bool Publish<TRequest>(string exchange, string routingKey, PublishMessage<TRequest> request)
+    bool Publish<TRequest>(string exchange, string routingKey, TRequest request)
         where TRequest : class;
 
-    Task<TResponse> SendAndReceiveAsync<TRequest, TResponse>(string exchangeName, string routingKey, PublishMessage<TRequest> requestModel, TimeSpan? timeOut = null);
+    Task<TResponse> SendAndReceiveAsync<TRequest, TResponse>(string exchangeName, string routingKey, TRequest requestModel, TimeSpan? timeOut = null);
 }

@@ -36,14 +36,14 @@ public class MessageBus : IMessageBus
         _consumer.ConsumeAndReplyAsync(queue, func);
     }
 
-    public bool Publish<TRequest>(string exchange, string routingKey, PublishMessage<TRequest> request)
+    public bool Publish<TRequest>(string exchange, string routingKey, TRequest request)
         where TRequest : class
     {
         _logger.LogInformation($"Publicando. Exchange: {exchange}; Routing Key: {routingKey}; Hora: {DateTime.Now}");
         return _publisher.Publish(exchange, routingKey, request);
     }
 
-    public Task<TResponse> SendAndReceiveAsync<TRequest, TResponse>(string exchangeName, string routingKey, PublishMessage<TRequest> requestModel, TimeSpan? timeOut = null) 
+    public Task<TResponse> SendAndReceiveAsync<TRequest, TResponse>(string exchangeName, string routingKey, TRequest requestModel, TimeSpan? timeOut = null) 
     {
         _logger.LogInformation($"Publicando RPC. Exchange: {exchangeName}; Routing Key: {routingKey}; Hora: {DateTime.Now}");
         return _sender.SendAndReceiveAsync<TRequest, TResponse>(exchangeName, routingKey, requestModel, timeOut);
